@@ -1,0 +1,24 @@
+name: NevexisCore
+version: '${project.version}'
+main: dev.nevah5.nevexis.NevexisCore
+api-version: '1.20'
+commands:
+  vanish:
+    description: Vanish yourself or another player.
+    usage: /<command> [player]
+    permission-message: You do not have permission to use this command.
+    permission: vanish.use
+permissions:
+  vanish.*:
+    description: Allows the user to vanish themselves and other players.
+    children:
+      vanish.see:
+        description: Allows the user to see other vanished players.
+      vanish.use:
+        description: Allows the user to vanish themselves
+        default: op
+        children:
+          vanish.use.others:
+            description: Allows the user to vanish other players
+            default: op
+
