@@ -9,6 +9,7 @@ public final class NevexisCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        this.saveDefaultConfig();
         Objects.requireNonNull(this.getCommand("vanish")).setExecutor(new VanishCommand(this));
     }
 

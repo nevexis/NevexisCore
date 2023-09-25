@@ -2,6 +2,7 @@ package dev.nevah5.nevexis.command;
 
 import dev.nevah5.nevexis.NevexisCore;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,35 +16,50 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.*;
 
 public class VanishCommand implements CommandExecutor, Listener {
+    private final String CORE_NO_PERMISSION;
+    private final String VANISH_OTHERS_NO_PERMISSION;
+    private final String VANISH_PLAYER_NOT_FOUND;
+    private final String VANISH_VANISH_PLAYER;
+    private final String VANISH_SHOW_PLAYER;
+    private final String VANISH_OTHERS_VANISH_PLAYER;
+    private final String VANISH_OTHERS_SHOW_PLAYER;
     private final NevexisCore plugin;
     private final Set<UUID> vanishedPlayers = new HashSet<>();
 
     public VanishCommand(final NevexisCore plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
+
+        this.CORE_NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("core.no-permission")));
+        this.VANISH_OTHERS_NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.others.no-permission")));
+        this.VANISH_PLAYER_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.player-not-found")));
+        this.VANISH_VANISH_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.vanish-player")));
+        this.VANISH_SHOW_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.show-player")));
+        this.VANISH_OTHERS_VANISH_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.others.vanish-player")));
+        this.VANISH_OTHERS_SHOW_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.others.show-player")));
     }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String alias, String[] args) {
         if (!commandSender.hasPermission("vanish.use")) {
-            commandSender.sendMessage("You don't have permission to use this command.");
+            commandSender.sendMessage(CORE_NO_PERMISSION);
             return true;
         }
         Player target;
         if (args.length > 0) {
             if (!commandSender.hasPermission("vanish.use.others")) {
-                commandSender.sendMessage("You don't have permission to vanish others.");
+                commandSender.sendMessage(VANISH_OTHERS_NO_PERMISSION);
                 return true;
             }
             target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                commandSender.sendMessage("Player not found.");
+                commandSender.sendMessage(VANISH_PLAYER_NOT_FOUND);
                 return true;
             }
         } else if (commandSender instanceof Player) {
             target = (Player) commandSender;
         } else {
-            commandSender.sendMessage("Please specify a player.");
+            // this should not execute
             return true;
         }
 
@@ -90,9 +106,9 @@ public class VanishCommand implements CommandExecutor, Listener {
             }
         }
         if(player.equals(sender)) {
-            sender.sendMessage("You are now vanished!");
+            sender.sendMessage(VANISH_VANISH_PLAYER);
         } else {
-            sender.sendMessage(String.format("%s is now vanished!", player.getName()));
+            sender.sendMessage(VANISH_OTHERS_VANISH_PLAYER.replace("%player%", player.getName()));
         }
     }
 
@@ -102,9 +118,9 @@ public class VanishCommand implements CommandExecutor, Listener {
             onlinePlayer.showPlayer(this.plugin, player);
         }
         if(player.equals(sender)) {
-            sender.sendMessage("You are now visible!");
+            sender.sendMessage(VANISH_SHOW_PLAYER);
         } else {
-            sender.sendMessage(String.format("%s is now visible!", player.getName()));
+            sender.sendMessage(VANISH_OTHERS_SHOW_PLAYER.replace("%player%", player.getName()));
         }
     }
 }
