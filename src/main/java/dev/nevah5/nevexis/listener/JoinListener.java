@@ -15,12 +15,11 @@ public class JoinListener implements Listener {
     public JoinListener(final NevexisCore plugin){
         this.plugin = plugin;
         String tmpChatFormat = Objects.requireNonNull(plugin.getConfig().getString("core.join-format"));
-        tmpChatFormat = tmpChatFormat.replace("%player%", "%s");
         this.JOIN_FORMAT = ChatColor.translateAlternateColorCodes('&', tmpChatFormat);
     }
 
     @EventHandler
     public void onChat(final PlayerJoinEvent joinEvent){
-        joinEvent.setJoinMessage(JOIN_FORMAT);
+        joinEvent.setJoinMessage(JOIN_FORMAT.replace("%player%", joinEvent.getPlayer().getName()));
     }
 }
