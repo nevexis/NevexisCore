@@ -15,12 +15,11 @@ public class QuitListener implements Listener {
     public QuitListener(final NevexisCore plugin){
         this.plugin = plugin;
         String tmpChatFormat = Objects.requireNonNull(plugin.getConfig().getString("core.quit-format"));
-        tmpChatFormat = tmpChatFormat.replace("%player%", "%s");
         this.QUIT_FORMAT = ChatColor.translateAlternateColorCodes('&', tmpChatFormat);
     }
 
     @EventHandler
     public void onChat(final PlayerQuitEvent quitEvent){
-        quitEvent.setQuitMessage(QUIT_FORMAT);
+        quitEvent.setQuitMessage(QUIT_FORMAT.replace("%player%", quitEvent.getPlayer().getName()));
     }
 }
