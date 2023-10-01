@@ -19,7 +19,7 @@ public class JoinListener implements Listener {
     }
 
     @EventHandler
-    public void onChat(final PlayerJoinEvent joinEvent){
+    public void onJoin(final PlayerJoinEvent joinEvent){
         joinEvent.setJoinMessage(JOIN_FORMAT.replace("%player%", joinEvent.getPlayer().getName()));
     }
 }

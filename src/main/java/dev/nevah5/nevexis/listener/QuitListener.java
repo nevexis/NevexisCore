@@ -19,7 +19,7 @@ public class QuitListener implements Listener {
     }
 
     @EventHandler
-    public void onChat(final PlayerQuitEvent quitEvent){
+    public void onQuit(final PlayerQuitEvent quitEvent){
         quitEvent.setQuitMessage(QUIT_FORMAT.replace("%player%", quitEvent.getPlayer().getName()));
     }
 }
