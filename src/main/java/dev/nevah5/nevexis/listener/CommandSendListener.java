@@ -27,8 +27,5 @@ public class CommandSendListener implements Listener {
         for (String command : deniedCommands) {
             event.getCommands().remove(command);
         }
-
-        // TODO: filter out additional/duplicate commands
-        // e.g. minecraft:help isn't filtered out because bukkit:help is
     }
 }

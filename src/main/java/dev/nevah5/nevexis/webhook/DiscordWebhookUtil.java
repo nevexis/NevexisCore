@@ -1,8 +1,10 @@
 package dev.nevah5.nevexis.webhook;
 
-import org.bukkit.event.player.*;
-
-import java.util.stream.Collectors;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class DiscordWebhookUtil {
 
@@ -50,6 +52,16 @@ public class DiscordWebhookUtil {
                 .setEmbedTitle("Command Issued")
                 .setEmbedAuthor(commandEvent.getPlayer().getUniqueId().toString(), null, null)
                 .addEmbedField(commandEvent.getPlayer().getName(), commandEvent.getMessage(), false)
+                .setEmbedTimestamp()
+                .setEmbedColor(3134122)
+                .build();
+    }
+
+    public static DiscordWebhook deathActivity(final PlayerDeathEvent playerDeathEvent) {
+        return new DiscordWebhook().builder()
+                .setEmbedTitle("Player Death")
+                .setEmbedAuthor(playerDeathEvent.getEntity().getUniqueId().toString(), null, null)
+                .addEmbedField(playerDeathEvent.getEntity().getName(), playerDeathEvent.getDeathMessage(), false)
                 .setEmbedTimestamp()
                 .setEmbedColor(3134122)
                 .build();
