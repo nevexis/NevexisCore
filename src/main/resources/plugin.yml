@@ -9,6 +9,9 @@ commands:
     permission-message: You do not have permission to use this command.
     permission: vanish.use
 permissions:
+  core.*:
+    description: Allows to use denied commands.
+    default: op
   vanish.*:
     description: Allows the user to vanish themselves and other players.
     children:

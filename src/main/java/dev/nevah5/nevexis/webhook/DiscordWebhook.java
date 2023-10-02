@@ -15,7 +15,7 @@ public class DiscordWebhook {
     private String content;
 
     public DiscordWebhookBuilder builder() {
-        return new DiscordWebhookBuilder();
+        return new DiscordWebhookBuilder(this);
     }
 
     public void execute(final String webhookUrl) {
@@ -59,8 +59,8 @@ public class DiscordWebhook {
 
         private final DiscordWebhook discordWebhook;
 
-        public DiscordWebhookBuilder() {
-            this.discordWebhook = new DiscordWebhook();
+        public DiscordWebhookBuilder(final DiscordWebhook discordWebhook) {
+            this.discordWebhook = discordWebhook;
         }
 
         public DiscordWebhookBuilder setContent(final String content) {
