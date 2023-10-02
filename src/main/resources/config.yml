@@ -24,6 +24,10 @@ core:
     - 'permission'
     - 'permissions'
     - 'perms'
+    - 'random'
+    - 'tm'
+    - 'teammsg'
+    - 'me'
 activity:
   enabled: false
   discord-webhook-url: 'https://discord.com/api/webhooks/'
