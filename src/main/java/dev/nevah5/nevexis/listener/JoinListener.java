@@ -1,6 +1,8 @@
 package dev.nevah5.nevexis.listener;
 
 import dev.nevah5.nevexis.NevexisCore;
+import dev.nevah5.nevexis.webhook.DiscordWebhook;
+import dev.nevah5.nevexis.webhook.DiscordWebhookUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +21,12 @@ public class JoinListener implements Listener {
     }
 
     @EventHandler
-    public void onChat(final PlayerJoinEvent joinEvent){
+    public void onJoin(final PlayerJoinEvent joinEvent){
         joinEvent.setJoinMessage(JOIN_FORMAT.replace("%player%", joinEvent.getPlayer().getName()));
+
+        if(this.plugin.getConfig().getBoolean("activity.enabled")) {
+            final DiscordWebhook joinWebhook = DiscordWebhookUtil.joinActivity(joinEvent);
+            joinWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
+        }
     }
 }

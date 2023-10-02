@@ -4,6 +4,9 @@ core:
   chat-format: '&8▍ &7%player% &r&8≫ &r%message%'
   join-format: '&a▶ %player% joined the server'
   quit-format: '&c◀ %player% left the server'
+activity:
+  enabled: false
+  discord-webhook-url: 'https://discord.com/api/webhooks/'
 vanish:
   others:
     no-permission: '&cYou don''t have permission to vanish other players.'
