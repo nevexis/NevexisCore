@@ -6,6 +6,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class DiscordWebhookUtil {
 
+    public static DiscordWebhook pluginState(final boolean isEnabled) {
+        return new DiscordWebhook().builder()
+                .setEmbedTitle("Plugin State")
+                .setEmbedDescription(isEnabled ? "Plugin is now enabled." : "Plugin is now disabled.")
+                .setEmbedColor(isEnabled ? 6750105 : 11739419)
+                .build();
+    }
+
     public static DiscordWebhook joinActivity(final PlayerJoinEvent joinEvent) {
         return new DiscordWebhook().builder()
                 .setEmbedTitle("Join Activity")
