@@ -1,8 +1,8 @@
 package dev.nevah5.nevexis.webhook;
 
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
+
+import java.util.stream.Collectors;
 
 public class DiscordWebhookUtil {
 
@@ -42,6 +42,16 @@ public class DiscordWebhookUtil {
                 .addEmbedField(chatEvent.getPlayer().getName(), chatEvent.getMessage(), false)
                 .setEmbedTimestamp()
                 .setEmbedColor(16777215)
+                .build();
+    }
+
+    public static DiscordWebhook commandActivity(final PlayerCommandPreprocessEvent commandEvent) {
+        return new DiscordWebhook().builder()
+                .setEmbedTitle("Command Issued")
+                .setEmbedAuthor(commandEvent.getPlayer().getUniqueId().toString(), null, null)
+                .addEmbedField(commandEvent.getPlayer().getName(), commandEvent.getMessage(), false)
+                .setEmbedTimestamp()
+                .setEmbedColor(3134122)
                 .build();
     }
 
