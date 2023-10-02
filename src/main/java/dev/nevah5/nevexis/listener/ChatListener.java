@@ -1,6 +1,8 @@
 package dev.nevah5.nevexis.listener;
 
 import dev.nevah5.nevexis.NevexisCore;
+import dev.nevah5.nevexis.webhook.DiscordWebhook;
+import dev.nevah5.nevexis.webhook.DiscordWebhookUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,5 +25,10 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onChat(final AsyncPlayerChatEvent chatEvent){
         chatEvent.setFormat(CHAT_FORMAT);
+
+        if(this.plugin.getConfig().getBoolean("activity.enabled")) {
+            final DiscordWebhook chatWebhook = DiscordWebhookUtil.chatActivity(chatEvent);
+            chatWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
+        }
     }
 }
