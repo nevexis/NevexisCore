@@ -52,36 +52,40 @@ public class DiscordWebhook {
         }
     }
 
-    public void execute(final String webhookUrl) throws Exception {
-        // Create a connection
-        URL url = new URL(webhookUrl);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/json; utf-8");
-        connection.setDoOutput(true);
+    public void execute(final String webhookUrl) {
+        try {
+            // Create a connection
+            URL url = new URL(webhookUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json; utf-8");
+            connection.setDoOutput(true);
 
-        // Prepare the payload using ObjectMapper
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> payload = new HashMap<>();
-        if (this.content != null) {
-            payload.put("content", this.content);
-        }
-        if (!this.embed.isEmpty()) {
-            payload.put("embeds", Collections.singletonList(this.embed));
-        }
+            // Prepare the payload using ObjectMapper
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> payload = new HashMap<>();
+            if (this.content != null) {
+                payload.put("content", this.content);
+            }
+            if (!this.embed.isEmpty()) {
+                payload.put("embeds", Collections.singletonList(this.embed));
+            }
 
-        // Serialize the payload to JSON
-        byte[] jsonData = objectMapper.writeValueAsBytes(payload);
+            // Serialize the payload to JSON
+            byte[] jsonData = objectMapper.writeValueAsBytes(payload);
 
-        // Write the JSON payload to the output stream
-        try (OutputStream os = connection.getOutputStream()) {
-            os.write(jsonData, 0, jsonData.length);
-        }
+            // Write the JSON payload to the output stream
+            try (OutputStream os = connection.getOutputStream()) {
+                os.write(jsonData, 0, jsonData.length);
+            }
 
-        // Get the response code (should be 204 if successful)
-        int responseCode = connection.getResponseCode();
-        if (responseCode != 204) {
-            throw new Exception("Could not post Webhook.");
+            // Get the response code (should be 204 if successful)
+            int responseCode = connection.getResponseCode();
+            if (responseCode != 204) {
+                throw new Exception("Could not post Webhook.");
+            }
+        } catch (final Exception e) {
+            e.printStackTrace();
         }
     }
 }

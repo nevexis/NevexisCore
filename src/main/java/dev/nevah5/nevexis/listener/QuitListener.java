@@ -1,12 +1,11 @@
 package dev.nevah5.nevexis.listener;
 
 import dev.nevah5.nevexis.NevexisCore;
-import dev.nevah5.nevexis.webhook.template.activity.JoinWebhook;
-import dev.nevah5.nevexis.webhook.template.activity.QuitWebhook;
+import dev.nevah5.nevexis.webhook.DiscordWebhook;
+import dev.nevah5.nevexis.webhook.DiscordWebhookUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Objects;
@@ -22,14 +21,12 @@ public class QuitListener implements Listener {
     }
 
     @EventHandler
-    public void onQuitSendWebhook(final PlayerQuitEvent quitEvent) {
-        if(this.plugin.getConfig().getBoolean("activity.enabled")) {
-            new QuitWebhook(this.plugin.getConfig().getString("activity.discord-webhook-url"), quitEvent);
-        }
-    }
-
-    @EventHandler
     public void onQuit(final PlayerQuitEvent quitEvent){
         quitEvent.setQuitMessage(QUIT_FORMAT.replace("%player%", quitEvent.getPlayer().getName()));
+
+        if(this.plugin.getConfig().getBoolean("activity.enabled")) {
+            final DiscordWebhook joinWebhook = DiscordWebhookUtil.quitActivity(quitEvent);
+            joinWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
+        }
     }
 }
