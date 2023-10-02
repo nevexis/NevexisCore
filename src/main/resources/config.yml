@@ -4,6 +4,7 @@ core:
   chat-format: '&8▍ &7%player% &r&8≫ &r%message%'
   join-format: '&a▶ %player% joined the server'
   quit-format: '&c◀ %player% left the server'
+  death-format: '&e✝ %message%'
   disallowed-commands:
     - '?'
     - 'about'
