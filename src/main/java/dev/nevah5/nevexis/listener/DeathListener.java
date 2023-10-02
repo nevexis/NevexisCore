@@ -1,6 +1,8 @@
 package dev.nevah5.nevexis.listener;
 
 import dev.nevah5.nevexis.NevexisCore;
+import dev.nevah5.nevexis.webhook.DiscordWebhook;
+import dev.nevah5.nevexis.webhook.DiscordWebhookUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,5 +23,10 @@ public class DeathListener implements Listener {
     @EventHandler
     public void onDeath(final PlayerDeathEvent deathEvent){
         deathEvent.setDeathMessage(DEATH_FORMAT.replace("%message%", Objects.requireNonNull(deathEvent.getDeathMessage())));
+
+        if(this.plugin.getConfig().getBoolean("activity.enabled")) {
+            final DiscordWebhook deathWebhook = DiscordWebhookUtil.deathActivity(deathEvent);
+            deathWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
+        }
     }
 }
