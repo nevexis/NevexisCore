@@ -26,6 +26,7 @@ public final class NevexisCore extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new QuitListener(this), this);
         this.getServer().getPluginManager().registerEvents(new CommandListener(this), this);
         this.getServer().getPluginManager().registerEvents(new CommandSendListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new DeathListener(this), this);
 
         // Commands
         Objects.requireNonNull(this.getCommand("vanish")).setExecutor(new VanishCommand(this));
