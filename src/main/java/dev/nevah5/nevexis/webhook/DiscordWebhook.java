@@ -11,37 +11,50 @@ import java.util.Map;
 
 public class DiscordWebhook {
 
-    private final String webhookUrl;
     private String content;
     private final Map<String, Object> embed = new HashMap<>();
 
-    public DiscordWebhook(String webhookUrl) {
-        this.webhookUrl = webhookUrl;
+    public DiscordWebhookBuilder builder() {
+        return new DiscordWebhookBuilder();
     }
 
-    public DiscordWebhook setContent(String content) {
-        this.content = content;
-        return this;
+    public static class DiscordWebhookBuilder {
+
+        private final DiscordWebhook discordWebhook;
+
+        public DiscordWebhookBuilder() {
+            this.discordWebhook = new DiscordWebhook();
+        }
+
+        public DiscordWebhookBuilder setContent(final String content) {
+            this.discordWebhook.content = content;
+            return this;
+        }
+
+
+        public DiscordWebhookBuilder setEmbedTitle(String title) {
+            this.discordWebhook.embed.put("title", title);
+            return this;
+        }
+
+        public DiscordWebhookBuilder setEmbedDescription(String description) {
+            this.discordWebhook.embed.put("description", description);
+            return this;
+        }
+
+        public DiscordWebhookBuilder setEmbedColor(int color) {
+            this.discordWebhook.embed.put("color", color);
+            return this;
+        }
+
+        public DiscordWebhook build() {
+            return this.discordWebhook;
+        }
     }
 
-    public DiscordWebhook setEmbedTitle(String title) {
-        embed.put("title", title);
-        return this;
-    }
-
-    public DiscordWebhook setEmbedDescription(String description) {
-        embed.put("description", description);
-        return this;
-    }
-
-    public DiscordWebhook setEmbedColor(int color) {
-        embed.put("color", color);
-        return this;
-    }
-
-    public void execute() throws Exception {
+    public void execute(final String webhookUrl) throws Exception {
         // Create a connection
-        URL url = new URL(this.webhookUrl);
+        URL url = new URL(webhookUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -67,6 +80,8 @@ public class DiscordWebhook {
 
         // Get the response code (should be 204 if successful)
         int responseCode = connection.getResponseCode();
-        System.out.println("POST Response Code: " + responseCode);
+        if (responseCode != 204) {
+            throw new Exception("Could not post Webhook.");
+        }
     }
 }

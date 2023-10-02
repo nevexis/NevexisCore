@@ -6,12 +6,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class QuitWebhook {
     public QuitWebhook(final String webhookUrl, final PlayerQuitEvent quitEvent) {
+        final DiscordWebhook quitActivityWebhook = new DiscordWebhook().builder()
+                .setEmbedTitle("Join Activity")
+                .setEmbedDescription(quitEvent.getPlayer().getName() + " joined.")
+                .setEmbedColor(6750105)
+                .build();
+
         try {
-            new DiscordWebhook(webhookUrl)
-                    .setEmbedTitle("Quit Activity")
-                    .setEmbedDescription(quitEvent.getPlayer().getName() + " left.")
-                    .setEmbedColor(13904670)
-                    .execute();
+            quitActivityWebhook.execute(webhookUrl);
         } catch (final Exception e) {
             e.printStackTrace();
         }
