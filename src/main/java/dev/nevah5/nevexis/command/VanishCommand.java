@@ -13,10 +13,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 public class VanishCommand implements CommandExecutor, Listener {
-    private final String CORE_NO_PERMISSION;
     private final String VANISH_OTHERS_NO_PERMISSION;
     private final String VANISH_PLAYER_NOT_FOUND;
     private final String VANISH_VANISH_PLAYER;
@@ -30,7 +32,6 @@ public class VanishCommand implements CommandExecutor, Listener {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
 
-        this.CORE_NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("core.no-permission")));
         this.VANISH_OTHERS_NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.others.no-permission")));
         this.VANISH_PLAYER_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.player-not-found")));
         this.VANISH_VANISH_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.vanish-player")));
@@ -42,7 +43,7 @@ public class VanishCommand implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String alias, String[] args) {
         if (!commandSender.hasPermission("vanish.use")) {
-            commandSender.sendMessage(CORE_NO_PERMISSION);
+            commandSender.sendMessage(this.plugin.NO_PERMISSION);
             return true;
         }
         Player target;
