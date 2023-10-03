@@ -19,12 +19,12 @@ import java.util.Set;
 import java.util.UUID;
 
 public class VanishCommand implements CommandExecutor, Listener {
-    private final String VANISH_OTHERS_NO_PERMISSION;
-    private final String VANISH_PLAYER_NOT_FOUND;
-    private final String VANISH_VANISH_PLAYER;
-    private final String VANISH_SHOW_PLAYER;
-    private final String VANISH_OTHERS_VANISH_PLAYER;
-    private final String VANISH_OTHERS_SHOW_PLAYER;
+    private final String OTHERS_NO_PERMISSION;
+    private final String PLAYER_NOT_FOUND;
+    private final String VANISH_PLAYER;
+    private final String SHOW_PLAYER;
+    private final String OTHERS_VANISH_PLAYER;
+    private final String OTHERS_SHOW_PLAYER;
     private final NevexisCore plugin;
     private final Set<UUID> vanishedPlayers = new HashSet<>();
 
@@ -32,12 +32,12 @@ public class VanishCommand implements CommandExecutor, Listener {
         this.plugin = plugin;
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
 
-        this.VANISH_OTHERS_NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.others.no-permission")));
-        this.VANISH_PLAYER_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.player-not-found")));
-        this.VANISH_VANISH_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.vanish-player")));
-        this.VANISH_SHOW_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.show-player")));
-        this.VANISH_OTHERS_VANISH_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.others.vanish-player")));
-        this.VANISH_OTHERS_SHOW_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.others.show-player")));
+        this.OTHERS_NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.others.no-permission")));
+        this.PLAYER_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.player-not-found")));
+        this.VANISH_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.vanish-player")));
+        this.SHOW_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.show-player")));
+        this.OTHERS_VANISH_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.others.vanish-player")));
+        this.OTHERS_SHOW_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.plugin.getConfig().getString("vanish.others.show-player")));
     }
 
     @Override
@@ -49,12 +49,12 @@ public class VanishCommand implements CommandExecutor, Listener {
         Player target;
         if (args.length > 0) {
             if (!commandSender.hasPermission("nevexis.vanish.use.others")) {
-                commandSender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_OTHERS_NO_PERMISSION);
+                commandSender.sendMessage(this.plugin.SERVER_PREFIX + OTHERS_NO_PERMISSION);
                 return true;
             }
             target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                commandSender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_PLAYER_NOT_FOUND);
+                commandSender.sendMessage(this.plugin.SERVER_PREFIX + PLAYER_NOT_FOUND);
                 return true;
             }
         } else if (commandSender instanceof Player) {
@@ -107,9 +107,9 @@ public class VanishCommand implements CommandExecutor, Listener {
             }
         }
         if(player.equals(sender)) {
-            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_VANISH_PLAYER);
+            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_PLAYER);
         } else {
-            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_OTHERS_VANISH_PLAYER.replace("%player%", player.getName()));
+            sender.sendMessage(this.plugin.SERVER_PREFIX + OTHERS_VANISH_PLAYER.replace("%player%", player.getName()));
         }
     }
 
@@ -119,9 +119,9 @@ public class VanishCommand implements CommandExecutor, Listener {
             onlinePlayer.showPlayer(this.plugin, player);
         }
         if(player.equals(sender)) {
-            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_SHOW_PLAYER);
+            sender.sendMessage(this.plugin.SERVER_PREFIX + SHOW_PLAYER);
         } else {
-            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_OTHERS_SHOW_PLAYER.replace("%player%", player.getName()));
+            sender.sendMessage(this.plugin.SERVER_PREFIX + OTHERS_SHOW_PLAYER.replace("%player%", player.getName()));
         }
     }
 }
