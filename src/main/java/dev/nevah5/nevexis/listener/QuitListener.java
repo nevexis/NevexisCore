@@ -26,7 +26,7 @@ public class QuitListener implements Listener {
 
         if (this.plugin.ACTIVITY_ENABLED) {
             final DiscordWebhook joinWebhook = DiscordWebhookUtil.quitActivity(quitEvent);
-            joinWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
+            joinWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
         }
     }
 }

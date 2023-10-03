@@ -26,7 +26,7 @@ public class JoinListener implements Listener {
 
         if (this.plugin.ACTIVITY_ENABLED) {
             final DiscordWebhook joinWebhook = DiscordWebhookUtil.joinActivity(joinEvent);
-            joinWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
+            joinWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
         }
     }
 }

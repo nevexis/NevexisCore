@@ -16,6 +16,7 @@ public final class NevexisCore extends JavaPlugin {
     public String NOT_PLAYER;
     public String NO_PERMISSION;
     public boolean ACTIVITY_ENABLED;
+    public String ACTIVITY_WEBHOOK_URL;
 
     @Override
     public void onEnable() {
@@ -26,6 +27,9 @@ public final class NevexisCore extends JavaPlugin {
         this.NOT_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.getConfig().getString("core.not-player")));
         this.NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.getConfig().getString("core.no-permission")));
         this.ACTIVITY_ENABLED = this.getConfig().getBoolean("activity.enabled");
+        if (this.ACTIVITY_ENABLED) {
+            this.ACTIVITY_WEBHOOK_URL = Objects.requireNonNull(this.getConfig().getString("activity.discord-webhook-url"));
+        }
 
         // Listeners
         this.getServer().getPluginManager().registerEvents(new ChatListener(this), this);
@@ -42,7 +46,7 @@ public final class NevexisCore extends JavaPlugin {
         // Webhook
         if (this.ACTIVITY_ENABLED) {
             final DiscordWebhook pluginState = DiscordWebhookUtil.pluginState(true);
-            pluginState.execute(this.getConfig().getString("activity.discord-webhook-url"));
+            pluginState.execute(this.ACTIVITY_WEBHOOK_URL);
         }
     }
 
@@ -51,7 +55,7 @@ public final class NevexisCore extends JavaPlugin {
         // Webhook
         if (this.ACTIVITY_ENABLED) {
             final DiscordWebhook pluginState = DiscordWebhookUtil.pluginState(false);
-            pluginState.execute(this.getConfig().getString("activity.discord-webhook-url"));
+            pluginState.execute(this.ACTIVITY_WEBHOOK_URL);
         }
     }
 

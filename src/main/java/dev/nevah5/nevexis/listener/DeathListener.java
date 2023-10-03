@@ -26,7 +26,7 @@ public class DeathListener implements Listener {
 
         if (this.plugin.ACTIVITY_ENABLED) {
             final DiscordWebhook deathWebhook = DiscordWebhookUtil.deathActivity(deathEvent);
-            deathWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
+            deathWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
         }
     }
 }

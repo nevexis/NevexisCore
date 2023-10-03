@@ -28,7 +28,7 @@ public class ChatListener implements Listener {
 
         if (this.plugin.ACTIVITY_ENABLED) {
             final DiscordWebhook chatWebhook = DiscordWebhookUtil.chatActivity(chatEvent);
-            chatWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
+            chatWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
         }
     }
 }
