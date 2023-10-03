@@ -1,5 +1,6 @@
 package dev.nevah5.nevexis;
 
+import dev.nevah5.nevexis.command.TeamChatCommand;
 import dev.nevah5.nevexis.command.VanishCommand;
 import dev.nevah5.nevexis.listener.*;
 import dev.nevah5.nevexis.webhook.DiscordWebhook;
@@ -11,6 +12,8 @@ import java.util.Objects;
 
 public final class NevexisCore extends JavaPlugin {
 
+    public String SERVER_PREFIX;
+    public String NOT_PLAYER;
     public String NO_PERMISSION;
 
     @Override
@@ -18,6 +21,8 @@ public final class NevexisCore extends JavaPlugin {
         this.saveDefaultConfig();
 
         // Configurations
+        this.SERVER_PREFIX = ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("core.server-prefix"));
+        this.NOT_PLAYER = ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("core.not-player"));
         this.NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("core.no-permission"));
 
         // Listeners
@@ -30,6 +35,7 @@ public final class NevexisCore extends JavaPlugin {
 
         // Commands
         Objects.requireNonNull(this.getCommand("vanish")).setExecutor(new VanishCommand(this));
+        Objects.requireNonNull(this.getCommand("tc")).setExecutor(new TeamChatCommand(this));
 
         // Webhook
         if (this.getConfig().getBoolean("activity.enabled")) {

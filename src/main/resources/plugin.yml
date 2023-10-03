@@ -7,21 +7,32 @@ commands:
     description: Vanish yourself or another player.
     usage: /<command> [player]
     permission-message: You do not have permission to use this command.
-    permission: vanish.use
+    permission: nevexis.vanish.use
+  tc:
+    description: Send a message in the team-chat.
+    usage: /<command> message
+    permission-message: You do not have permission to use this command.
+    permission: nevexis.staff
 permissions:
-  core.*:
-    description: Allows to use denied commands.
-    default: op
-  vanish.*:
-    description: Allows the user to vanish themselves and other players.
+  nevexis.*:
+    description: All the plugin's permissions.
+    default: false
     children:
-      vanish.see:
-        description: Allows the user to see other vanished players.
-      vanish.use:
-        description: Allows the user to vanish themselves
+      staff.*:
+        description: This grants access to the staff chat.
         default: op
+      core.*:
+        description: Allows to use denied commands.
+        default: op
+      vanish.*:
+        description: Allows the user to vanish themselves and other players.
         children:
-          vanish.use.others:
-            description: Allows the user to vanish other players
+          vanish.see:
+            description: Allows the user to see other vanished players.
+          vanish.use:
+            description: Allows the user to vanish themselves.
             default: op
-
+            children:
+              vanish.use.others:
+                description: Allows the user to vanish other players.
+                default: op

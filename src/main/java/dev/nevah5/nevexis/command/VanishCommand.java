@@ -42,19 +42,19 @@ public class VanishCommand implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String alias, String[] args) {
-        if (!commandSender.hasPermission("vanish.use")) {
-            commandSender.sendMessage(this.plugin.NO_PERMISSION);
+        if (!commandSender.hasPermission("nevexis.vanish.use")) {
+            commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION);
             return true;
         }
         Player target;
         if (args.length > 0) {
-            if (!commandSender.hasPermission("vanish.use.others")) {
-                commandSender.sendMessage(VANISH_OTHERS_NO_PERMISSION);
+            if (!commandSender.hasPermission("nevexis.vanish.use.others")) {
+                commandSender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_OTHERS_NO_PERMISSION);
                 return true;
             }
             target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                commandSender.sendMessage(VANISH_PLAYER_NOT_FOUND);
+                commandSender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_PLAYER_NOT_FOUND);
                 return true;
             }
         } else if (commandSender instanceof Player) {
@@ -78,14 +78,14 @@ public class VanishCommand implements CommandExecutor, Listener {
         if (vanishedPlayers.contains(joinedPlayer.getUniqueId())) {
             event.setJoinMessage(null);
             for (final Player player : Bukkit.getOnlinePlayers()) {
-                if (!player.hasPermission("vanish.see")) {
+                if (!player.hasPermission("nevexis.vanish.see")) {
                     player.hidePlayer(this.plugin, joinedPlayer);
                 }
             }
         }
         for (final UUID uuid : vanishedPlayers) {
             final Player vanishedPlayer = Bukkit.getPlayer(uuid);
-            if (vanishedPlayer != null && !joinedPlayer.hasPermission("vanish.see")) {
+            if (vanishedPlayer != null && !joinedPlayer.hasPermission("nevexis.vanish.see")) {
                 joinedPlayer.hidePlayer(this.plugin, vanishedPlayer);
             }
         }
@@ -102,14 +102,14 @@ public class VanishCommand implements CommandExecutor, Listener {
     private void vanishPlayer(final Player player, final CommandSender sender) {
         vanishedPlayers.add(player.getUniqueId());
         for (final Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (!onlinePlayer.hasPermission("vanish.see")) {
+            if (!onlinePlayer.hasPermission("nevexis.vanish.see")) {
                 onlinePlayer.hidePlayer(this.plugin, player);
             }
         }
         if(player.equals(sender)) {
-            sender.sendMessage(VANISH_VANISH_PLAYER);
+            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_VANISH_PLAYER);
         } else {
-            sender.sendMessage(VANISH_OTHERS_VANISH_PLAYER.replace("%player%", player.getName()));
+            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_OTHERS_VANISH_PLAYER.replace("%player%", player.getName()));
         }
     }
 
@@ -119,9 +119,9 @@ public class VanishCommand implements CommandExecutor, Listener {
             onlinePlayer.showPlayer(this.plugin, player);
         }
         if(player.equals(sender)) {
-            sender.sendMessage(VANISH_SHOW_PLAYER);
+            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_SHOW_PLAYER);
         } else {
-            sender.sendMessage(VANISH_OTHERS_SHOW_PLAYER.replace("%player%", player.getName()));
+            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_OTHERS_SHOW_PLAYER.replace("%player%", player.getName()));
         }
     }
 }
