@@ -62,7 +62,7 @@ public class TeamChatCommand implements CommandExecutor {
         } else {
             commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
 
-            final DiscordWebhook commandWebhook = DiscordWebhookUtil.nonPlayerCommand(commandSender, command.getName() + " " + message)
+            final DiscordWebhook commandWebhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, command.getName() + " " + message)
                     .builder()
                     .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
                     .build();

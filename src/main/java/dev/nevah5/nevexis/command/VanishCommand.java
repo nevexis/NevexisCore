@@ -64,7 +64,7 @@ public class VanishCommand implements CommandExecutor, Listener {
         } else {
             commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
 
-            final DiscordWebhook commandWebhook = DiscordWebhookUtil.nonPlayerCommand(commandSender, command.getName() + " " + String.join(" ", args))
+            final DiscordWebhook commandWebhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, command.getName() + " " + String.join(" ", args))
                     .builder()
                     .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
                     .build();

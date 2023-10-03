@@ -40,7 +40,7 @@ public class ChatClearCommand implements CommandExecutor {
         } else {
             commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
 
-            final DiscordWebhook commandWebhook = DiscordWebhookUtil.nonPlayerCommand(commandSender, command.getName())
+            final DiscordWebhook commandWebhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, command.getName())
                     .builder()
                     .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
                     .build();
