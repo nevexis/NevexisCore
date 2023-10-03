@@ -1,5 +1,6 @@
 package dev.nevah5.nevexis.webhook;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -11,71 +12,85 @@ public class DiscordWebhookUtil {
 
     public static DiscordWebhook pluginState(final boolean isEnabled) {
         return new DiscordWebhook().builder()
-                .setEmbedTitle("Plugin State")
-                .setEmbedDescription(isEnabled ? "Plugin is now enabled." : "Plugin is now disabled.")
+                .setEmbedAuthor("Status Change", "", "")
+                .setEmbedTitle("Plugin " + (isEnabled ? "enabled" : "disabled"))
+                .setEmbedDescription(isEnabled ? "The plugin has been enabled." : "The plugin has been disabled.")
                 .setEmbedTimestamp()
-                .setEmbedColor(isEnabled ? 6750105 : 11739419)
+                .setEmbedColor(3093151)
                 .build();
     }
 
     public static DiscordWebhook joinActivity(final PlayerJoinEvent joinEvent) {
         return new DiscordWebhook().builder()
-                .setEmbedTitle("Join Activity")
-                .setEmbedAuthor(joinEvent.getPlayer().getUniqueId().toString(), null, null)
+                .setEmbedAuthor("Join", "", "")
+                .setEmbedTitle(getFormattedPlayerInfo(joinEvent.getPlayer()))
                 .setEmbedDescription(joinEvent.getPlayer().getName() + " joined.")
                 .setEmbedTimestamp()
-                .setEmbedColor(6750105)
+                .setEmbedColor(3128625)
                 .build();
     }
 
     public static DiscordWebhook quitActivity(final PlayerQuitEvent quitEvent) {
         return new DiscordWebhook().builder()
-                .setEmbedTitle("Quit Activity")
-                .setEmbedAuthor(quitEvent.getPlayer().getUniqueId().toString(), null, null)
+                .setEmbedAuthor("Quit", "", "")
+                .setEmbedTitle(getFormattedPlayerInfo(quitEvent.getPlayer()))
                 .setEmbedDescription(quitEvent.getPlayer().getName() + " left.")
                 .setEmbedTimestamp()
-                .setEmbedColor(11739419)
+                .setEmbedColor(12399153)
                 .build();
     }
 
     public static DiscordWebhook chatActivity(final AsyncPlayerChatEvent chatEvent) {
         return new DiscordWebhook().builder()
-                .setEmbedTitle("Chat Activity")
-                .setEmbedAuthor(chatEvent.getPlayer().getUniqueId().toString(), null, null)
-                .addEmbedField(chatEvent.getPlayer().getName(), chatEvent.getMessage(), false)
+                .setEmbedAuthor("Chat", "", "")
+                .setEmbedTitle(getFormattedPlayerInfo(chatEvent.getPlayer()))
+                .setEmbedDescription(chatEvent.getMessage())
                 .setEmbedTimestamp()
-                .setEmbedColor(16777215)
+                .setEmbedColor(16055039)
                 .build();
     }
 
     public static DiscordWebhook teamChatActivity(final Player player, final String message) {
         return new DiscordWebhook().builder()
-                .setEmbedTitle("Team Chat Activity")
-                .setEmbedAuthor(player.getUniqueId().toString(), null, null)
-                .addEmbedField(player.getName(), message, false)
+                .setEmbedAuthor("Team Chat", "", "")
+                .setEmbedTitle(getFormattedPlayerInfo(player))
+                .setEmbedDescription(message)
                 .setEmbedTimestamp()
-                .setEmbedColor(16777215)
+                .setEmbedColor(531253)
                 .build();
     }
 
     public static DiscordWebhook commandActivity(final PlayerCommandPreprocessEvent commandEvent) {
         return new DiscordWebhook().builder()
-                .setEmbedTitle("Command Issued")
-                .setEmbedAuthor(commandEvent.getPlayer().getUniqueId().toString(), null, null)
-                .addEmbedField(commandEvent.getPlayer().getName(), commandEvent.getMessage(), false)
+                .setEmbedAuthor("Command", "", "")
+                .setEmbedTitle(getFormattedPlayerInfo(commandEvent.getPlayer()))
+                .setEmbedDescription(commandEvent.getMessage())
                 .setEmbedTimestamp()
-                .setEmbedColor(3134122)
+                .setEmbedColor(5577629)
                 .build();
     }
 
-    public static DiscordWebhook deathActivity(final PlayerDeathEvent playerDeathEvent) {
+    public static DiscordWebhook deathActivity(final String deathMessage, final PlayerDeathEvent playerDeathEvent) {
         return new DiscordWebhook().builder()
-                .setEmbedTitle("Player Death")
-                .setEmbedAuthor(playerDeathEvent.getEntity().getUniqueId().toString(), null, null)
-                .addEmbedField(playerDeathEvent.getEntity().getName(), playerDeathEvent.getDeathMessage(), false)
+                .setEmbedAuthor("Death", "", "")
+                .setEmbedTitle(getFormattedPlayerInfo(playerDeathEvent.getEntity()))
+                .setEmbedDescription(deathMessage)
                 .setEmbedTimestamp()
-                .setEmbedColor(3134122)
+                .setEmbedColor(14270239)
+                .build();
+    }
+    
+    public static DiscordWebhook nonPlayerCommand(final CommandSender sender, final String message) {
+        return new DiscordWebhook().builder()
+                .setEmbedAuthor("Command", "", "")
+                .setEmbedTitle(sender.getName())
+                .setEmbedDescription(message)
+                .setEmbedTimestamp()
+                .setEmbedColor(5577629)
                 .build();
     }
 
+    private static String getFormattedPlayerInfo(final Player player) {
+        return player.getName() + " [" + player.getUniqueId() + "]";
+    }
 }

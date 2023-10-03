@@ -1,6 +1,8 @@
 package dev.nevah5.nevexis.command;
 
 import dev.nevah5.nevexis.NevexisCore;
+import dev.nevah5.nevexis.webhook.DiscordWebhook;
+import dev.nevah5.nevexis.webhook.DiscordWebhookUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -60,7 +62,13 @@ public class VanishCommand implements CommandExecutor, Listener {
         } else if (commandSender instanceof Player) {
             target = (Player) commandSender;
         } else {
-            // this should not execute
+            commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
+
+            final DiscordWebhook commandWebhook = DiscordWebhookUtil.nonPlayerCommand(commandSender, command.getName() + " " + String.join(" ", args))
+                    .builder()
+                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
+                    .build();
+            commandWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
             return true;
         }
 
