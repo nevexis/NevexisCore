@@ -1,5 +1,6 @@
 package dev.nevah5.nevexis;
 
+import dev.nevah5.nevexis.command.TeamChatCommand;
 import dev.nevah5.nevexis.command.VanishCommand;
 import dev.nevah5.nevexis.listener.*;
 import dev.nevah5.nevexis.webhook.DiscordWebhook;
@@ -30,6 +31,7 @@ public final class NevexisCore extends JavaPlugin {
 
         // Commands
         Objects.requireNonNull(this.getCommand("vanish")).setExecutor(new VanishCommand(this));
+        Objects.requireNonNull(this.getCommand("tc")).setExecutor(new TeamChatCommand(this));
 
         // Webhook
         if (this.getConfig().getBoolean("activity.enabled")) {

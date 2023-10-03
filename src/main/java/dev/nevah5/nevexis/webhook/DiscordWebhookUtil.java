@@ -1,5 +1,6 @@
 package dev.nevah5.nevexis.webhook;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -42,6 +43,16 @@ public class DiscordWebhookUtil {
                 .setEmbedTitle("Chat Activity")
                 .setEmbedAuthor(chatEvent.getPlayer().getUniqueId().toString(), null, null)
                 .addEmbedField(chatEvent.getPlayer().getName(), chatEvent.getMessage(), false)
+                .setEmbedTimestamp()
+                .setEmbedColor(16777215)
+                .build();
+    }
+
+    public static DiscordWebhook teamChatActivity(final Player player, final String message) {
+        return new DiscordWebhook().builder()
+                .setEmbedTitle("Team Chat Activity")
+                .setEmbedAuthor(player.getUniqueId().toString(), null, null)
+                .addEmbedField(player.getName(), message, false)
                 .setEmbedTimestamp()
                 .setEmbedColor(16777215)
                 .build();
