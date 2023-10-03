@@ -28,10 +28,10 @@ public class TeamChatCommand implements CommandExecutor {
         final DiscordWebhook webhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, "/" + command.getName() + " " + message);
 
         if (!commandSender.hasPermission("nevexis.staff")) {
-            commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION);
+            commandSender.sendMessage(this.plugin.getNoPermissionMessage());
 
             webhook.builder()
-                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION, false)
+                    .addEmbedField("Error", this.plugin.getNoPermissionMessage(), false)
                     .build()
                     .execute(this.plugin);
 
@@ -52,7 +52,7 @@ public class TeamChatCommand implements CommandExecutor {
                 webhook.execute(this.plugin);
             } else {
                 String errorMessage = String.format("&cInvalid usage: %s", command.getUsage().replace("<command>", command.getName()));
-                errorMessage = this.plugin.SERVER_PREFIX + ChatColor.translateAlternateColorCodes('&', errorMessage);
+                errorMessage = this.plugin.getSERVER_PREFIX() + ChatColor.translateAlternateColorCodes('&', errorMessage);
                 commandSender.sendMessage(errorMessage);
 
                 webhook.builder()
@@ -61,10 +61,10 @@ public class TeamChatCommand implements CommandExecutor {
                         .execute(this.plugin);
             }
         } else {
-            commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
+            commandSender.sendMessage(this.plugin.getOnlyExecutableByPlayerMessage());
 
             webhook.builder()
-                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
+                    .addEmbedField("Error", this.plugin.getOnlyExecutableByPlayerMessage(), false)
                     .build()
                     .execute(this.plugin);
         }

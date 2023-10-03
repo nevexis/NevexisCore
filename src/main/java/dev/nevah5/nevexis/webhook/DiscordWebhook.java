@@ -20,12 +20,12 @@ public class DiscordWebhook {
     }
 
     public void execute(final NevexisCore plugin) {
-        if (!plugin.ACTIVITY_ENABLED) {
+        if (!plugin.isACTIVITY_ENABLED()) {
             return;
         }
         try {
             // Create a connection
-            URL url = new URL(plugin.ACTIVITY_WEBHOOK_URL);
+            URL url = new URL(plugin.getACTIVITY_WEBHOOK_URL());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
