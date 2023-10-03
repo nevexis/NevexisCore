@@ -65,14 +65,6 @@ public final class NevexisCore extends JavaPlugin {
         return SERVER_PREFIX;
     }
 
-    public String getNOT_PLAYER() {
-        return NOT_PLAYER;
-    }
-
-    public String getNO_PERMISSION() {
-        return NO_PERMISSION;
-    }
-
     public boolean isACTIVITY_ENABLED() {
         return ACTIVITY_ENABLED;
     }
@@ -81,7 +73,7 @@ public final class NevexisCore extends JavaPlugin {
         return ACTIVITY_WEBHOOK_URL;
     }
 
-    public String getServerNoPermissionMessage() {
+    public String getNoPermissionMessage() {
         return SERVER_PREFIX + NO_PERMISSION;
     }
 

@@ -47,9 +47,9 @@ public class VanishCommand implements CommandExecutor, Listener {
         final DiscordWebhook webhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, "/" + command.getName() + String.join("", args));
 
         if (!commandSender.hasPermission("nevexis.vanish.use")) {
-            commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION);
+            commandSender.sendMessage(this.plugin.getNoPermissionMessage());
             webhook.builder()
-                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION, false)
+                    .addEmbedField("Error", this.plugin.getNoPermissionMessage(), false)
                     .build()
                     .execute(this.plugin);
             return true;
@@ -57,18 +57,18 @@ public class VanishCommand implements CommandExecutor, Listener {
         Player target;
         if (args.length > 0) {
             if (!commandSender.hasPermission("nevexis.vanish.use.others")) {
-                commandSender.sendMessage(this.plugin.SERVER_PREFIX + OTHERS_NO_PERMISSION);
+                commandSender.sendMessage(this.plugin.getSERVER_PREFIX() + OTHERS_NO_PERMISSION);
                 webhook.builder()
-                        .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.OTHERS_NO_PERMISSION, false)
+                        .addEmbedField("Error", this.plugin.getSERVER_PREFIX() + this.OTHERS_NO_PERMISSION, false)
                         .build()
                         .execute(this.plugin);
                 return true;
             }
             target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.PLAYER_NOT_FOUND);
+                commandSender.sendMessage(this.plugin.getSERVER_PREFIX() + this.PLAYER_NOT_FOUND);
                 webhook.builder()
-                        .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.PLAYER_NOT_FOUND, false)
+                        .addEmbedField("Error", this.plugin.getSERVER_PREFIX() + this.PLAYER_NOT_FOUND, false)
                         .build()
                         .execute(this.plugin);
                 return true;
@@ -76,11 +76,11 @@ public class VanishCommand implements CommandExecutor, Listener {
         } else if (commandSender instanceof Player) {
             target = (Player) commandSender;
         } else {
-            commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
+            commandSender.sendMessage(this.plugin.getOnlyExecutableByPlayerMessage());
 
             final DiscordWebhook commandWebhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, command.getName() + " " + String.join(" ", args))
                     .builder()
-                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
+                    .addEmbedField("Error", this.plugin.getOnlyExecutableByPlayerMessage(), false)
                     .build();
             commandWebhook.execute(this.plugin);
             return true;
@@ -130,9 +130,9 @@ public class VanishCommand implements CommandExecutor, Listener {
             }
         }
         if(player.equals(sender)) {
-            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_PLAYER);
+            sender.sendMessage(this.plugin.getSERVER_PREFIX() + VANISH_PLAYER);
         } else {
-            sender.sendMessage(this.plugin.SERVER_PREFIX + OTHERS_VANISH_PLAYER.replace("%player%", player.getName()));
+            sender.sendMessage(this.plugin.getSERVER_PREFIX() + OTHERS_VANISH_PLAYER.replace("%player%", player.getName()));
         }
     }
 
@@ -142,9 +142,9 @@ public class VanishCommand implements CommandExecutor, Listener {
             onlinePlayer.showPlayer(this.plugin, player);
         }
         if(player.equals(sender)) {
-            sender.sendMessage(this.plugin.SERVER_PREFIX + SHOW_PLAYER);
+            sender.sendMessage(this.plugin.getSERVER_PREFIX() + SHOW_PLAYER);
         } else {
-            sender.sendMessage(this.plugin.SERVER_PREFIX + OTHERS_SHOW_PLAYER.replace("%player%", player.getName()));
+            sender.sendMessage(this.plugin.getSERVER_PREFIX() + OTHERS_SHOW_PLAYER.replace("%player%", player.getName()));
         }
     }
 }

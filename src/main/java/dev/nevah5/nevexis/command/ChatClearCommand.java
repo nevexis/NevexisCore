@@ -27,10 +27,10 @@ public class ChatClearCommand implements CommandExecutor {
         final DiscordWebhook webhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, "/" + command.getName());
 
         if (!commandSender.hasPermission("nevexis.staff")) {
-            commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION);
+            commandSender.sendMessage(this.plugin.getNoPermissionMessage());
 
             webhook.builder()
-                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION, false)
+                    .addEmbedField("Error", this.plugin.getNoPermissionMessage(), false)
                     .build()
                     .execute(this.plugin);
 
@@ -40,17 +40,17 @@ public class ChatClearCommand implements CommandExecutor {
             this.plugin.getServer().getOnlinePlayers().forEach(player -> {
                 if (!player.hasPermission("nevexis.staff")) {
                     player.sendMessage(String.join("", Collections.nCopies(100, " \n")));
-                    player.sendMessage(this.plugin.SERVER_PREFIX + this.CHAT_CLEAR_TEXT);
+                    player.sendMessage(this.plugin.getSERVER_PREFIX() + this.CHAT_CLEAR_TEXT);
                 } else {
-                    player.sendMessage(this.plugin.SERVER_PREFIX + this.CHAT_CLEAR_TEXT + String.format(" (%s)", commandSender.getName()));
+                    player.sendMessage(this.plugin.getSERVER_PREFIX() + this.CHAT_CLEAR_TEXT + String.format(" (%s)", commandSender.getName()));
                 }
             });
             webhook.execute(this.plugin);
         } else {
-            commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
+            commandSender.sendMessage(this.plugin.getOnlyExecutableByPlayerMessage());
 
             webhook.builder()
-                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
+                    .addEmbedField("Error", this.plugin.getOnlyExecutableByPlayerMessage(), false)
                     .build()
                     .execute(this.plugin);
         }
