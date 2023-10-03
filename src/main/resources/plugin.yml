@@ -13,13 +13,18 @@ commands:
     usage: /<command> <message>
     permission-message: You do not have permission to use this command.
     permission: nevexis.staff
+  cc:
+    description: Clears the chat.
+    usage: /<command>
+    permission-message: You do not have permission to use this command.
+    permission: nevexis.staff
 permissions:
   nevexis.*:
     description: All the plugin's permissions.
     default: false
     children:
       staff.*:
-        description: This grants access to the staff chat.
+        description: This grants access to staff features.
         default: op
       core.*:
         description: Allows to use denied commands.
