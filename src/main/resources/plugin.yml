@@ -10,7 +10,7 @@ commands:
     permission: nevexis.vanish.use
   tc:
     description: Send a message in the team-chat.
-    usage: /<command> message
+    usage: /<command> <message>
     permission-message: You do not have permission to use this command.
     permission: nevexis.staff
 permissions:
