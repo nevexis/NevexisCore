@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CommandListener implements Listener {
@@ -18,8 +19,8 @@ public class CommandListener implements Listener {
     }
 
     @EventHandler
-    public void onChat(final PlayerCommandPreprocessEvent commandEvent) {
-        final List<?> deniedCommands = this.plugin.getConfig().getList("core.disallowed-commands");
+    public void onPlayerCommand(final PlayerCommandPreprocessEvent commandEvent) {
+        final List<?> deniedCommands = Objects.requireNonNull(this.plugin.getConfig().getList("core.disallowed-commands"));
         AtomicBoolean cancelCommand = new AtomicBoolean(false);
 
         if (!commandEvent.getPlayer().hasPermission("nevexis.core.*")) {

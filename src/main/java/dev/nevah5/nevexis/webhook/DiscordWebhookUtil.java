@@ -1,5 +1,6 @@
 package dev.nevah5.nevexis.webhook;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -76,6 +77,16 @@ public class DiscordWebhookUtil {
                 .setEmbedDescription(deathMessage)
                 .setEmbedTimestamp()
                 .setEmbedColor(14270239)
+                .build();
+    }
+    
+    public static DiscordWebhook nonPlayerCommand(final CommandSender sender, final String message) {
+        return new DiscordWebhook().builder()
+                .setEmbedAuthor("Command", "", "")
+                .setEmbedTitle(sender.getName())
+                .setEmbedDescription(message)
+                .setEmbedTimestamp()
+                .setEmbedColor(5577629)
                 .build();
     }
 
