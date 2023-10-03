@@ -38,7 +38,7 @@ public class CommandListener implements Listener {
             final DiscordWebhook chatWebhook = DiscordWebhookUtil.commandActivity(commandEvent);
             if (cancelCommand.get()) {
                 chatWebhook.builder()
-                        .setEmbedFooter("This command was canceled, because of insufficient permissions.", "")
+                        .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION, false)
                         .build();
             }
             chatWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
