@@ -44,19 +44,33 @@ public class VanishCommand implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String alias, String[] args) {
+        final DiscordWebhook webhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, "/" + command.getName() + String.join("", args));
+
         if (!commandSender.hasPermission("nevexis.vanish.use")) {
             commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION);
+            webhook.builder()
+                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION, false)
+                    .build()
+                    .execute(this.plugin);
             return true;
         }
         Player target;
         if (args.length > 0) {
             if (!commandSender.hasPermission("nevexis.vanish.use.others")) {
                 commandSender.sendMessage(this.plugin.SERVER_PREFIX + OTHERS_NO_PERMISSION);
+                webhook.builder()
+                        .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.OTHERS_NO_PERMISSION, false)
+                        .build()
+                        .execute(this.plugin);
                 return true;
             }
             target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                commandSender.sendMessage(this.plugin.SERVER_PREFIX + PLAYER_NOT_FOUND);
+                commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.PLAYER_NOT_FOUND);
+                webhook.builder()
+                        .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.PLAYER_NOT_FOUND, false)
+                        .build()
+                        .execute(this.plugin);
                 return true;
             }
         } else if (commandSender instanceof Player) {
@@ -77,6 +91,7 @@ public class VanishCommand implements CommandExecutor, Listener {
         } else {
             vanishPlayer(target, commandSender);
         }
+        webhook.execute(this.plugin);
         return true;
     }
 

@@ -24,11 +24,19 @@ public class TeamChatCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String alias, String[] args) {
+        final String message = String.join(" ", args);
+        final DiscordWebhook webhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, "/" + command.getName() + " " + message);
+
         if (!commandSender.hasPermission("nevexis.staff")) {
             commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION);
+
+            webhook.builder()
+                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION, false)
+                    .build()
+                    .execute(this.plugin);
+
             return true;
         }
-        final String message = String.join(" ", args);
         if (commandSender instanceof Player) {
             final Player player = (Player) commandSender;
             if (args.length > 0 && !args[0].trim().equals("")) {
@@ -41,16 +49,13 @@ public class TeamChatCommand implements CommandExecutor {
                     }
                 });
 
-                final DiscordWebhook teamChatWebhook = DiscordWebhookUtil.teamChatActivity(player, message);
-                teamChatWebhook.execute(this.plugin);
+                webhook.execute(this.plugin);
             } else {
                 String errorMessage = String.format("&cInvalid usage: %s", command.getUsage().replace("<command>", command.getName()));
                 errorMessage = this.plugin.SERVER_PREFIX + ChatColor.translateAlternateColorCodes('&', errorMessage);
                 commandSender.sendMessage(errorMessage);
 
-                final DiscordWebhook teamChatWebhook = DiscordWebhookUtil.teamChatActivity(player, message);
-
-                teamChatWebhook.builder()
+                webhook.builder()
                         .addEmbedField("Error", errorMessage, false)
                         .build()
                         .execute(this.plugin);
@@ -58,11 +63,10 @@ public class TeamChatCommand implements CommandExecutor {
         } else {
             commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
 
-            final DiscordWebhook commandWebhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, command.getName() + " " + message)
-                    .builder()
+            webhook.builder()
                     .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
-                    .build();
-            commandWebhook.execute(this.plugin);
+                    .build()
+                    .execute(this.plugin);
         }
         return true;
     }

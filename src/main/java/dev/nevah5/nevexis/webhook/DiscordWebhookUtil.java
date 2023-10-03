@@ -50,16 +50,6 @@ public class DiscordWebhookUtil {
                 .build();
     }
 
-    public static DiscordWebhook teamChatActivity(final Player player, final String message) {
-        return new DiscordWebhook().builder()
-                .setEmbedAuthor("Team Chat", "", "")
-                .setEmbedTitle(getFormattedPlayerInfo(player))
-                .setEmbedDescription(message)
-                .setEmbedTimestamp()
-                .setEmbedColor(531253)
-                .build();
-    }
-
     public static DiscordWebhook commandIssuedActivity(final PlayerCommandPreprocessEvent commandEvent) {
         return new DiscordWebhook().builder()
                 .setEmbedAuthor("Command Issued", "", "")
