@@ -42,13 +42,13 @@ public class VanishCommand implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String alias, String[] args) {
-        if (!commandSender.hasPermission("vanish.use")) {
+        if (!commandSender.hasPermission("nevexis.vanish.use")) {
             commandSender.sendMessage(this.plugin.NO_PERMISSION);
             return true;
         }
         Player target;
         if (args.length > 0) {
-            if (!commandSender.hasPermission("vanish.use.others")) {
+            if (!commandSender.hasPermission("nevexis.vanish.use.others")) {
                 commandSender.sendMessage(VANISH_OTHERS_NO_PERMISSION);
                 return true;
             }
@@ -78,14 +78,14 @@ public class VanishCommand implements CommandExecutor, Listener {
         if (vanishedPlayers.contains(joinedPlayer.getUniqueId())) {
             event.setJoinMessage(null);
             for (final Player player : Bukkit.getOnlinePlayers()) {
-                if (!player.hasPermission("vanish.see")) {
+                if (!player.hasPermission("nevexis.vanish.see")) {
                     player.hidePlayer(this.plugin, joinedPlayer);
                 }
             }
         }
         for (final UUID uuid : vanishedPlayers) {
             final Player vanishedPlayer = Bukkit.getPlayer(uuid);
-            if (vanishedPlayer != null && !joinedPlayer.hasPermission("vanish.see")) {
+            if (vanishedPlayer != null && !joinedPlayer.hasPermission("nevexis.vanish.see")) {
                 joinedPlayer.hidePlayer(this.plugin, vanishedPlayer);
             }
         }
@@ -102,7 +102,7 @@ public class VanishCommand implements CommandExecutor, Listener {
     private void vanishPlayer(final Player player, final CommandSender sender) {
         vanishedPlayers.add(player.getUniqueId());
         for (final Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (!onlinePlayer.hasPermission("vanish.see")) {
+            if (!onlinePlayer.hasPermission("nevexis.vanish.see")) {
                 onlinePlayer.hidePlayer(this.plugin, player);
             }
         }

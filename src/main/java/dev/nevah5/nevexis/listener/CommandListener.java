@@ -22,7 +22,7 @@ public class CommandListener implements Listener {
         final List<?> deniedCommands = this.plugin.getConfig().getList("core.disallowed-commands");
         AtomicBoolean cancelCommand = new AtomicBoolean(false);
 
-        if (!commandEvent.getPlayer().hasPermission("core.*")) {
+        if (!commandEvent.getPlayer().hasPermission("nevexis.core.*")) {
             deniedCommands.forEach(o -> {
                 String[] arrCommand = commandEvent.getMessage().toLowerCase().split(" ", 2);
                 final String firstPart = arrCommand[0].trim().replace("/", "");
