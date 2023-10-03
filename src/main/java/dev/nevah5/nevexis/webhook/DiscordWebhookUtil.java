@@ -50,19 +50,9 @@ public class DiscordWebhookUtil {
                 .build();
     }
 
-    public static DiscordWebhook teamChatActivity(final Player player, final String message) {
+    public static DiscordWebhook commandIssuedActivity(final PlayerCommandPreprocessEvent commandEvent) {
         return new DiscordWebhook().builder()
-                .setEmbedAuthor("Team Chat", "", "")
-                .setEmbedTitle(getFormattedPlayerInfo(player))
-                .setEmbedDescription(message)
-                .setEmbedTimestamp()
-                .setEmbedColor(531253)
-                .build();
-    }
-
-    public static DiscordWebhook commandActivity(final PlayerCommandPreprocessEvent commandEvent) {
-        return new DiscordWebhook().builder()
-                .setEmbedAuthor("Command", "", "")
+                .setEmbedAuthor("Command Issued", "", "")
                 .setEmbedTitle(getFormattedPlayerInfo(commandEvent.getPlayer()))
                 .setEmbedDescription(commandEvent.getMessage())
                 .setEmbedTimestamp()
@@ -79,10 +69,19 @@ public class DiscordWebhookUtil {
                 .setEmbedColor(14270239)
                 .build();
     }
-    
-    public static DiscordWebhook nonPlayerCommand(final CommandSender sender, final String message) {
+
+    public static DiscordWebhook commandExecutionActivity(final CommandSender sender, final String message) {
+        if(sender instanceof Player) {
+            return new DiscordWebhook().builder()
+                    .setEmbedAuthor("Command Execution", "", "")
+                    .setEmbedTitle(getFormattedPlayerInfo((Player) sender))
+                    .setEmbedDescription(message)
+                    .setEmbedTimestamp()
+                    .setEmbedColor(5577629)
+                    .build();
+        }
         return new DiscordWebhook().builder()
-                .setEmbedAuthor("Command", "", "")
+                .setEmbedAuthor("Command Execution", "", "")
                 .setEmbedTitle(sender.getName())
                 .setEmbedDescription(message)
                 .setEmbedTimestamp()

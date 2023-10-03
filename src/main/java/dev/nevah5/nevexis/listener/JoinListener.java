@@ -24,9 +24,7 @@ public class JoinListener implements Listener {
     public void onJoin(final PlayerJoinEvent joinEvent) {
         joinEvent.setJoinMessage(JOIN_FORMAT.replace("%player%", joinEvent.getPlayer().getName()));
 
-        if (this.plugin.ACTIVITY_ENABLED) {
-            final DiscordWebhook joinWebhook = DiscordWebhookUtil.joinActivity(joinEvent);
-            joinWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
-        }
+        final DiscordWebhook joinWebhook = DiscordWebhookUtil.joinActivity(joinEvent);
+        joinWebhook.execute(this.plugin);
     }
 }

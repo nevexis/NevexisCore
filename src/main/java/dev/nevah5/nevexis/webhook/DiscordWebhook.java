@@ -1,6 +1,7 @@
 package dev.nevah5.nevexis.webhook;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.nevah5.nevexis.NevexisCore;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -18,10 +19,13 @@ public class DiscordWebhook {
         return new DiscordWebhookBuilder(this);
     }
 
-    public void execute(final String webhookUrl) {
+    public void execute(final NevexisCore plugin) {
+        if (!plugin.ACTIVITY_ENABLED) {
+            return;
+        }
         try {
             // Create a connection
-            URL url = new URL(webhookUrl);
+            URL url = new URL(plugin.ACTIVITY_WEBHOOK_URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
