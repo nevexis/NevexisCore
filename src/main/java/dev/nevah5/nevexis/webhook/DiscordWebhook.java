@@ -2,6 +2,7 @@ package dev.nevah5.nevexis.webhook;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.nevah5.nevexis.NevexisCore;
+import org.bukkit.Bukkit;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -23,40 +24,42 @@ public class DiscordWebhook {
         if (!plugin.isACTIVITY_ENABLED()) {
             return;
         }
-        try {
-            // Create a connection
-            URL url = new URL(plugin.getACTIVITY_WEBHOOK_URL());
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json; utf-8");
-            connection.setDoOutput(true);
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            try {
+                // Create a connection
+                URL url = new URL(plugin.getACTIVITY_WEBHOOK_URL());
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json; utf-8");
+                connection.setDoOutput(true);
 
-            // Prepare the payload using ObjectMapper
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> payload = new HashMap<>();
-            if (this.content != null) {
-                payload.put("content", this.content);
-            }
-            if (!this.embed.isEmpty()) {
-                payload.put("embeds", Collections.singletonList(this.embed));
-            }
+                // Prepare the payload using ObjectMapper
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, Object> payload = new HashMap<>();
+                if (this.content != null) {
+                    payload.put("content", this.content);
+                }
+                if (!this.embed.isEmpty()) {
+                    payload.put("embeds", Collections.singletonList(this.embed));
+                }
 
-            // Serialize the payload to JSON
-            byte[] jsonData = objectMapper.writeValueAsBytes(payload);
+                // Serialize the payload to JSON
+                byte[] jsonData = objectMapper.writeValueAsBytes(payload);
 
-            // Write the JSON payload to the output stream
-            try (OutputStream os = connection.getOutputStream()) {
-                os.write(jsonData, 0, jsonData.length);
-            }
+                // Write the JSON payload to the output stream
+                try (OutputStream os = connection.getOutputStream()) {
+                    os.write(jsonData, 0, jsonData.length);
+                }
 
-            // Get the response code (should be 204 if successful)
-            int responseCode = connection.getResponseCode();
-            if (responseCode != 204) {
-                throw new Exception("Could not post Webhook.");
+                // Get the response code (should be 204 if successful)
+                int responseCode = connection.getResponseCode();
+                if (responseCode != 204) {
+                    throw new Exception("Could not post Webhook.");
+                }
+            } catch (final Exception e) {
+                e.printStackTrace();
             }
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     public static class DiscordWebhookBuilder {
