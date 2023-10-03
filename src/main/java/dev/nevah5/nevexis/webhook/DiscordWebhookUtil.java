@@ -69,11 +69,11 @@ public class DiscordWebhookUtil {
                 .build();
     }
 
-    public static DiscordWebhook deathActivity(final PlayerDeathEvent playerDeathEvent) {
+    public static DiscordWebhook deathActivity(final String deathMessage, final PlayerDeathEvent playerDeathEvent) {
         return new DiscordWebhook().builder()
                 .setEmbedAuthor("Death", "", "")
                 .setEmbedTitle(getFormattedPlayerInfo(playerDeathEvent.getEntity()))
-                .setEmbedDescription(playerDeathEvent.getDeathMessage())
+                .setEmbedDescription(deathMessage)
                 .setEmbedTimestamp()
                 .setEmbedColor(14270239)
                 .build();
