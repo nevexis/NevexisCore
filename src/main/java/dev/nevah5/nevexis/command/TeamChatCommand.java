@@ -41,23 +41,19 @@ public class TeamChatCommand implements CommandExecutor {
                     }
                 });
 
-                if (this.plugin.ACTIVITY_ENABLED) {
-                    final DiscordWebhook teamChatWebhook = DiscordWebhookUtil.teamChatActivity(player, message);
-                    teamChatWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
-                }
+                final DiscordWebhook teamChatWebhook = DiscordWebhookUtil.teamChatActivity(player, message);
+                teamChatWebhook.execute(this.plugin);
             } else {
                 String errorMessage = String.format("&cInvalid usage: %s", command.getUsage().replace("<command>", command.getName()));
                 errorMessage = this.plugin.SERVER_PREFIX + ChatColor.translateAlternateColorCodes('&', errorMessage);
                 commandSender.sendMessage(errorMessage);
 
-                if (this.plugin.ACTIVITY_ENABLED) {
-                    final DiscordWebhook teamChatWebhook = DiscordWebhookUtil.teamChatActivity(player, message);
+                final DiscordWebhook teamChatWebhook = DiscordWebhookUtil.teamChatActivity(player, message);
 
-                    teamChatWebhook.builder()
-                            .addEmbedField("Error", errorMessage, false)
-                            .build()
-                            .execute(this.plugin.ACTIVITY_WEBHOOK_URL);
-                }
+                teamChatWebhook.builder()
+                        .addEmbedField("Error", errorMessage, false)
+                        .build()
+                        .execute(this.plugin);
             }
         } else {
             commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
@@ -66,7 +62,7 @@ public class TeamChatCommand implements CommandExecutor {
                     .builder()
                     .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
                     .build();
-            commandWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
+            commandWebhook.execute(this.plugin);
         }
         return true;
     }

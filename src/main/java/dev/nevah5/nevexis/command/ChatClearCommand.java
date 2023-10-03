@@ -24,8 +24,16 @@ public class ChatClearCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String alias, String[] args) {
+        final DiscordWebhook webhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, "/" + command.getName());
+
         if (!commandSender.hasPermission("nevexis.staff")) {
             commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION);
+
+            webhook.builder()
+                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION, false)
+                    .build()
+                    .execute(this.plugin);
+
             return true;
         }
         if (commandSender instanceof Player) {
@@ -37,14 +45,14 @@ public class ChatClearCommand implements CommandExecutor {
                     player.sendMessage(this.plugin.SERVER_PREFIX + this.CHAT_CLEAR_TEXT + String.format(" (%s)", commandSender.getName()));
                 }
             });
+            webhook.execute(this.plugin);
         } else {
             commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
 
-            final DiscordWebhook commandWebhook = DiscordWebhookUtil.commandExecutionActivity(commandSender, command.getName())
-                    .builder()
+            webhook.builder()
                     .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
-                    .build();
-            commandWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
+                    .build()
+                    .execute(this.plugin);
         }
         return true;
     }

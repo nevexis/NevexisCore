@@ -68,7 +68,7 @@ public class VanishCommand implements CommandExecutor, Listener {
                     .builder()
                     .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER, false)
                     .build();
-            commandWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
+            commandWebhook.execute(this.plugin);
             return true;
         }
 

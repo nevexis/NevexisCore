@@ -24,9 +24,7 @@ public class QuitListener implements Listener {
     public void onQuit(final PlayerQuitEvent quitEvent) {
         quitEvent.setQuitMessage(QUIT_FORMAT.replace("%player%", quitEvent.getPlayer().getName()));
 
-        if (this.plugin.ACTIVITY_ENABLED) {
-            final DiscordWebhook joinWebhook = DiscordWebhookUtil.quitActivity(quitEvent);
-            joinWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
-        }
+        final DiscordWebhook joinWebhook = DiscordWebhookUtil.quitActivity(quitEvent);
+        joinWebhook.execute(this.plugin);
     }
 }

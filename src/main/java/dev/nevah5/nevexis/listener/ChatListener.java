@@ -26,9 +26,7 @@ public class ChatListener implements Listener {
     public void onChat(final AsyncPlayerChatEvent chatEvent) {
         chatEvent.setFormat(CHAT_FORMAT);
 
-        if (this.plugin.ACTIVITY_ENABLED) {
-            final DiscordWebhook chatWebhook = DiscordWebhookUtil.chatActivity(chatEvent);
-            chatWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
-        }
+        final DiscordWebhook chatWebhook = DiscordWebhookUtil.chatActivity(chatEvent);
+        chatWebhook.execute(this.plugin);
     }
 }

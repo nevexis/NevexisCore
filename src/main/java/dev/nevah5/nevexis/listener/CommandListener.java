@@ -34,15 +34,13 @@ public class CommandListener implements Listener {
             });
         }
 
-        if (this.plugin.ACTIVITY_ENABLED) {
-            final DiscordWebhook chatWebhook = DiscordWebhookUtil.commandIssuedActivity(commandEvent);
-            if (cancelCommand.get()) {
-                chatWebhook.builder()
-                        .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION, false)
-                        .build();
-            }
-            chatWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
+        final DiscordWebhook chatWebhook = DiscordWebhookUtil.commandIssuedActivity(commandEvent);
+        if (cancelCommand.get()) {
+            chatWebhook.builder()
+                    .addEmbedField("Error", this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION, false)
+                    .build();
         }
+        chatWebhook.execute(this.plugin);
 
         if(cancelCommand.get()) {
             commandEvent.setCancelled(true);
