@@ -13,9 +13,9 @@ public class DiscordWebhookUtil {
         return new DiscordWebhook().builder()
                 .setEmbedAuthor("Status Change", "", "")
                 .setEmbedTitle("Plugin " + (isEnabled ? "enabled" : "disabled"))
-                .setEmbedDescription(isEnabled ? "the plugin has been enabled." : "The plugin has been disabled.")
+                .setEmbedDescription(isEnabled ? "The plugin has been enabled." : "The plugin has been disabled.")
                 .setEmbedTimestamp()
-                .setEmbedColor(isEnabled ? 6750105 : 11739419)
+                .setEmbedColor(3093151)
                 .build();
     }
 
@@ -25,7 +25,7 @@ public class DiscordWebhookUtil {
                 .setEmbedTitle(getFormattedPlayerInfo(joinEvent.getPlayer()))
                 .setEmbedDescription(joinEvent.getPlayer().getName() + " joined.")
                 .setEmbedTimestamp()
-                .setEmbedColor(6750105)
+                .setEmbedColor(3128625)
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class DiscordWebhookUtil {
                 .setEmbedTitle(getFormattedPlayerInfo(quitEvent.getPlayer()))
                 .setEmbedDescription(quitEvent.getPlayer().getName() + " left.")
                 .setEmbedTimestamp()
-                .setEmbedColor(11739419)
+                .setEmbedColor(12399153)
                 .build();
     }
 
@@ -45,7 +45,7 @@ public class DiscordWebhookUtil {
                 .setEmbedTitle(getFormattedPlayerInfo(chatEvent.getPlayer()))
                 .setEmbedDescription(chatEvent.getMessage())
                 .setEmbedTimestamp()
-                .setEmbedColor(16777215)
+                .setEmbedColor(16055039)
                 .build();
     }
 
@@ -55,7 +55,7 @@ public class DiscordWebhookUtil {
                 .setEmbedTitle(getFormattedPlayerInfo(player))
                 .setEmbedDescription(message)
                 .setEmbedTimestamp()
-                .setEmbedColor(16777215)
+                .setEmbedColor(531253)
                 .build();
     }
 
@@ -65,7 +65,7 @@ public class DiscordWebhookUtil {
                 .setEmbedTitle(getFormattedPlayerInfo(commandEvent.getPlayer()))
                 .setEmbedDescription(commandEvent.getMessage())
                 .setEmbedTimestamp()
-                .setEmbedColor(3134122)
+                .setEmbedColor(5577629)
                 .build();
     }
 
@@ -75,7 +75,7 @@ public class DiscordWebhookUtil {
                 .setEmbedTitle(getFormattedPlayerInfo(playerDeathEvent.getEntity()))
                 .setEmbedDescription(playerDeathEvent.getDeathMessage())
                 .setEmbedTimestamp()
-                .setEmbedColor(3134122)
+                .setEmbedColor(14270239)
                 .build();
     }
 
