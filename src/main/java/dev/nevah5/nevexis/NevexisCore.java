@@ -13,11 +13,11 @@ import java.util.Objects;
 
 public final class NevexisCore extends JavaPlugin {
 
-    public String SERVER_PREFIX;
-    public String NOT_PLAYER;
-    public String NO_PERMISSION;
-    public boolean ACTIVITY_ENABLED;
-    public String ACTIVITY_WEBHOOK_URL;
+    private String SERVER_PREFIX;
+    private String NOT_PLAYER;
+    private String NO_PERMISSION;
+    private boolean ACTIVITY_ENABLED;
+    private String ACTIVITY_WEBHOOK_URL;
 
     @Override
     public void onEnable() {
@@ -61,4 +61,31 @@ public final class NevexisCore extends JavaPlugin {
         }
     }
 
+    public String getSERVER_PREFIX() {
+        return SERVER_PREFIX;
+    }
+
+    public String getNOT_PLAYER() {
+        return NOT_PLAYER;
+    }
+
+    public String getNO_PERMISSION() {
+        return NO_PERMISSION;
+    }
+
+    public boolean isACTIVITY_ENABLED() {
+        return ACTIVITY_ENABLED;
+    }
+
+    public String getACTIVITY_WEBHOOK_URL() {
+        return ACTIVITY_WEBHOOK_URL;
+    }
+
+    public String getServerNoPermissionMessage() {
+        return SERVER_PREFIX + NO_PERMISSION;
+    }
+
+    public String getOnlyExecutableByPlayerMessage() {
+        return SERVER_PREFIX + NOT_PLAYER;
+    }
 }
