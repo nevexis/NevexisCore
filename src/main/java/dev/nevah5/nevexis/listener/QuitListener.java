@@ -14,17 +14,17 @@ public class QuitListener implements Listener {
     private final NevexisCore plugin;
     private final String QUIT_FORMAT;
 
-    public QuitListener(final NevexisCore plugin){
+    public QuitListener(final NevexisCore plugin) {
         this.plugin = plugin;
         String tmpChatFormat = Objects.requireNonNull(plugin.getConfig().getString("core.quit-format"));
         this.QUIT_FORMAT = ChatColor.translateAlternateColorCodes('&', tmpChatFormat);
     }
 
     @EventHandler
-    public void onQuit(final PlayerQuitEvent quitEvent){
+    public void onQuit(final PlayerQuitEvent quitEvent) {
         quitEvent.setQuitMessage(QUIT_FORMAT.replace("%player%", quitEvent.getPlayer().getName()));
 
-        if(this.plugin.getConfig().getBoolean("activity.enabled")) {
+        if (this.plugin.ACTIVITY_ENABLED) {
             final DiscordWebhook joinWebhook = DiscordWebhookUtil.quitActivity(quitEvent);
             joinWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
         }

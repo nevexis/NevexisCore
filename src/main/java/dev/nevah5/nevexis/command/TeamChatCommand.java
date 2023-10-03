@@ -40,7 +40,7 @@ public class TeamChatCommand implements CommandExecutor {
                 }
             });
 
-            if (this.plugin.getConfig().getBoolean("activity.enabled")) {
+            if (this.plugin.ACTIVITY_ENABLED) {
                 final DiscordWebhook teamChatWebhook = DiscordWebhookUtil.teamChatActivity(player, message);
                 teamChatWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
             }

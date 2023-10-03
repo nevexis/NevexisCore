@@ -33,7 +33,7 @@ public class CommandListener implements Listener {
             });
         }
 
-        if (this.plugin.getConfig().getBoolean("activity.enabled")) {
+        if (this.plugin.ACTIVITY_ENABLED) {
             final DiscordWebhook chatWebhook = DiscordWebhookUtil.commandActivity(commandEvent);
             if (cancelCommand.get()) {
                 chatWebhook.builder()
