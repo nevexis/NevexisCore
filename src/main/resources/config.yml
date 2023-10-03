@@ -1,10 +1,12 @@
 core:
   server-prefix: '&8▍ &9&lServer &r&8≫ &r'
+  not-player: '&r&cOnly a player can run this command.'
   no-permission: '&r&cYou don''t have permission to use this command.'
   chat-format: '&8▍ &7%player% &r&8≫ &r%message%'
   join-format: '&a▶ %player% joined the server'
   quit-format: '&c◀ %player% left the server'
   death-format: '&e✝ %message%'
+  team-chat-format: '&d&lTC &r&8▍ &7%player% &r&8≫ &r%message%'
   disallowed-commands:
     - '?'
     - 'about'

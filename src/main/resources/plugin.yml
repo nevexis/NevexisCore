@@ -16,7 +16,7 @@ commands:
 permissions:
   nevexis.*:
     description: All the plugin's permissions.
-    default: not op
+    default: false
     children:
       staff.*:
         description: This grants access to the staff chat.

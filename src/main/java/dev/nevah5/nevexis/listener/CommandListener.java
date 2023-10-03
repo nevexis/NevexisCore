@@ -42,7 +42,10 @@ public class CommandListener implements Listener {
             }
             chatWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
         }
-        commandEvent.setCancelled(cancelCommand.get());
-        commandEvent.getPlayer().sendMessage(this.plugin.NO_PERMISSION);
+
+        if(cancelCommand.get()) {
+            commandEvent.setCancelled(true);
+            commandEvent.getPlayer().sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION);
+        }
     }
 }

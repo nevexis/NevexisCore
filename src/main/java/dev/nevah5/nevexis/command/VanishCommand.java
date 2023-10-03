@@ -43,18 +43,18 @@ public class VanishCommand implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String alias, String[] args) {
         if (!commandSender.hasPermission("nevexis.vanish.use")) {
-            commandSender.sendMessage(this.plugin.NO_PERMISSION);
+            commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NO_PERMISSION);
             return true;
         }
         Player target;
         if (args.length > 0) {
             if (!commandSender.hasPermission("nevexis.vanish.use.others")) {
-                commandSender.sendMessage(VANISH_OTHERS_NO_PERMISSION);
+                commandSender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_OTHERS_NO_PERMISSION);
                 return true;
             }
             target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                commandSender.sendMessage(VANISH_PLAYER_NOT_FOUND);
+                commandSender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_PLAYER_NOT_FOUND);
                 return true;
             }
         } else if (commandSender instanceof Player) {
@@ -107,9 +107,9 @@ public class VanishCommand implements CommandExecutor, Listener {
             }
         }
         if(player.equals(sender)) {
-            sender.sendMessage(VANISH_VANISH_PLAYER);
+            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_VANISH_PLAYER);
         } else {
-            sender.sendMessage(VANISH_OTHERS_VANISH_PLAYER.replace("%player%", player.getName()));
+            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_OTHERS_VANISH_PLAYER.replace("%player%", player.getName()));
         }
     }
 
@@ -119,9 +119,9 @@ public class VanishCommand implements CommandExecutor, Listener {
             onlinePlayer.showPlayer(this.plugin, player);
         }
         if(player.equals(sender)) {
-            sender.sendMessage(VANISH_SHOW_PLAYER);
+            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_SHOW_PLAYER);
         } else {
-            sender.sendMessage(VANISH_OTHERS_SHOW_PLAYER.replace("%player%", player.getName()));
+            sender.sendMessage(this.plugin.SERVER_PREFIX + VANISH_OTHERS_SHOW_PLAYER.replace("%player%", player.getName()));
         }
     }
 }

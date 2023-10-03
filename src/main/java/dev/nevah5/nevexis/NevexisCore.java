@@ -12,6 +12,8 @@ import java.util.Objects;
 
 public final class NevexisCore extends JavaPlugin {
 
+    public String SERVER_PREFIX;
+    public String NOT_PLAYER;
     public String NO_PERMISSION;
 
     @Override
@@ -19,6 +21,8 @@ public final class NevexisCore extends JavaPlugin {
         this.saveDefaultConfig();
 
         // Configurations
+        this.SERVER_PREFIX = ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("core.server-prefix"));
+        this.NOT_PLAYER = ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("core.not-player"));
         this.NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("core.no-permission"));
 
         // Listeners
