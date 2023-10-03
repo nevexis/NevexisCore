@@ -28,7 +28,7 @@ public class CommandListener implements Listener {
                 String[] arrCommand = commandEvent.getMessage().toLowerCase().split(" ", 2);
                 final String firstPart = arrCommand[0].trim().replace("/", "");
 
-                if (firstPart.equalsIgnoreCase("/" + o.toString().toLowerCase())) {
+                if (firstPart.equalsIgnoreCase(o.toString().toLowerCase())) {
                     cancelCommand.set(true);
                 }
             });
