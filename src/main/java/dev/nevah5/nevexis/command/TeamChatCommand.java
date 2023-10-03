@@ -31,18 +31,33 @@ public class TeamChatCommand implements CommandExecutor {
         final String message = String.join(" ", args);
         if (commandSender instanceof Player) {
             final Player player = (Player) commandSender;
-            final String teamMessage = TEAM_CHAT_FORMAT.replace("%player%", player.getName())
-                    .replace("%message%", ChatColor.translateAlternateColorCodes('&', message));
+            if (args.length > 0 && !args[0].trim().equals("")) {
+                final String teamMessage = TEAM_CHAT_FORMAT.replace("%player%", player.getName())
+                        .replace("%message%", ChatColor.translateAlternateColorCodes('&', message));
 
-            this.plugin.getServer().getOnlinePlayers().forEach(p -> {
-                if (p.hasPermission("nevexis.staff")) {
-                    p.sendMessage(teamMessage);
+                this.plugin.getServer().getOnlinePlayers().forEach(p -> {
+                    if (p.hasPermission("nevexis.staff")) {
+                        p.sendMessage(teamMessage);
+                    }
+                });
+
+                if (this.plugin.ACTIVITY_ENABLED) {
+                    final DiscordWebhook teamChatWebhook = DiscordWebhookUtil.teamChatActivity(player, message);
+                    teamChatWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
                 }
-            });
+            } else {
+                String errorMessage = String.format("&cInvalid usage: %s", command.getUsage().replace("<command>", command.getName()));
+                errorMessage = this.plugin.SERVER_PREFIX + ChatColor.translateAlternateColorCodes('&', errorMessage);
+                commandSender.sendMessage(errorMessage);
 
-            if (this.plugin.ACTIVITY_ENABLED) {
-                final DiscordWebhook teamChatWebhook = DiscordWebhookUtil.teamChatActivity(player, message);
-                teamChatWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
+                if (this.plugin.ACTIVITY_ENABLED) {
+                    final DiscordWebhook teamChatWebhook = DiscordWebhookUtil.teamChatActivity(player, message);
+
+                    teamChatWebhook.builder()
+                            .addEmbedField("Error", errorMessage, false)
+                            .build()
+                            .execute(this.plugin.ACTIVITY_WEBHOOK_URL);
+                }
             }
         } else {
             commandSender.sendMessage(this.plugin.SERVER_PREFIX + this.plugin.NOT_PLAYER);
