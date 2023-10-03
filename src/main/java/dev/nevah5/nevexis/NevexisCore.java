@@ -15,15 +15,21 @@ public final class NevexisCore extends JavaPlugin {
     public String SERVER_PREFIX;
     public String NOT_PLAYER;
     public String NO_PERMISSION;
+    public boolean ACTIVITY_ENABLED;
+    public String ACTIVITY_WEBHOOK_URL;
 
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
 
         // Configurations
-        this.SERVER_PREFIX = ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("core.server-prefix"));
-        this.NOT_PLAYER = ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("core.not-player"));
-        this.NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("core.no-permission"));
+        this.SERVER_PREFIX = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.getConfig().getString("core.server-prefix")));
+        this.NOT_PLAYER = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.getConfig().getString("core.not-player")));
+        this.NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(this.getConfig().getString("core.no-permission")));
+        this.ACTIVITY_ENABLED = this.getConfig().getBoolean("activity.enabled");
+        if (this.ACTIVITY_ENABLED) {
+            this.ACTIVITY_WEBHOOK_URL = Objects.requireNonNull(this.getConfig().getString("activity.discord-webhook-url"));
+        }
 
         // Listeners
         this.getServer().getPluginManager().registerEvents(new ChatListener(this), this);
@@ -38,18 +44,18 @@ public final class NevexisCore extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("tc")).setExecutor(new TeamChatCommand(this));
 
         // Webhook
-        if (this.getConfig().getBoolean("activity.enabled")) {
+        if (this.ACTIVITY_ENABLED) {
             final DiscordWebhook pluginState = DiscordWebhookUtil.pluginState(true);
-            pluginState.execute(this.getConfig().getString("activity.discord-webhook-url"));
+            pluginState.execute(this.ACTIVITY_WEBHOOK_URL);
         }
     }
 
     @Override
     public void onDisable() {
         // Webhook
-        if (this.getConfig().getBoolean("activity.enabled")) {
+        if (this.ACTIVITY_ENABLED) {
             final DiscordWebhook pluginState = DiscordWebhookUtil.pluginState(false);
-            pluginState.execute(this.getConfig().getString("activity.discord-webhook-url"));
+            pluginState.execute(this.ACTIVITY_WEBHOOK_URL);
         }
     }
 

@@ -14,7 +14,7 @@ public class ChatListener implements Listener {
     private final NevexisCore plugin;
     private final String CHAT_FORMAT;
 
-    public ChatListener(final NevexisCore plugin){
+    public ChatListener(final NevexisCore plugin) {
         this.plugin = plugin;
         String tmpChatFormat = Objects.requireNonNull(plugin.getConfig().getString("core.chat-format"));
         tmpChatFormat = tmpChatFormat.replace("%player%", "%s");
@@ -23,12 +23,12 @@ public class ChatListener implements Listener {
     }
 
     @EventHandler
-    public void onChat(final AsyncPlayerChatEvent chatEvent){
+    public void onChat(final AsyncPlayerChatEvent chatEvent) {
         chatEvent.setFormat(CHAT_FORMAT);
 
-        if(this.plugin.getConfig().getBoolean("activity.enabled")) {
+        if (this.plugin.ACTIVITY_ENABLED) {
             final DiscordWebhook chatWebhook = DiscordWebhookUtil.chatActivity(chatEvent);
-            chatWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
+            chatWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
         }
     }
 }

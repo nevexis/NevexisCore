@@ -14,19 +14,19 @@ public class JoinListener implements Listener {
     private final NevexisCore plugin;
     private final String JOIN_FORMAT;
 
-    public JoinListener(final NevexisCore plugin){
+    public JoinListener(final NevexisCore plugin) {
         this.plugin = plugin;
         String tmpChatFormat = Objects.requireNonNull(plugin.getConfig().getString("core.join-format"));
         this.JOIN_FORMAT = ChatColor.translateAlternateColorCodes('&', tmpChatFormat);
     }
 
     @EventHandler
-    public void onJoin(final PlayerJoinEvent joinEvent){
+    public void onJoin(final PlayerJoinEvent joinEvent) {
         joinEvent.setJoinMessage(JOIN_FORMAT.replace("%player%", joinEvent.getPlayer().getName()));
 
-        if(this.plugin.getConfig().getBoolean("activity.enabled")) {
+        if (this.plugin.ACTIVITY_ENABLED) {
             final DiscordWebhook joinWebhook = DiscordWebhookUtil.joinActivity(joinEvent);
-            joinWebhook.execute(this.plugin.getConfig().getString("activity.discord-webhook-url"));
+            joinWebhook.execute(this.plugin.ACTIVITY_WEBHOOK_URL);
         }
     }
 }
