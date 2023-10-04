@@ -57,7 +57,7 @@ public final class NevexisCore extends JavaPlugin {
         // Webhook
         if (this.ACTIVITY_ENABLED) {
             final DiscordWebhook pluginState = DiscordWebhookUtil.pluginState(false);
-            pluginState.execute(this);
+            pluginState.executeSync(this);
         }
     }
 
