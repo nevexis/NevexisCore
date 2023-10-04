@@ -16,50 +16,62 @@ public class DiscordWebhook {
     private final Map<String, Object> embed = new HashMap<>();
     private String content;
 
-    public DiscordWebhookBuilder builder() {
-        return new DiscordWebhookBuilder(this);
-    }
 
     public void execute(final NevexisCore plugin) {
         if (!plugin.isACTIVITY_ENABLED()) {
             return;
         }
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try {
-                // Create a connection
-                URL url = new URL(plugin.getACTIVITY_WEBHOOK_URL());
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Content-Type", "application/json; utf-8");
-                connection.setDoOutput(true);
-
-                // Prepare the payload using ObjectMapper
-                ObjectMapper objectMapper = new ObjectMapper();
-                Map<String, Object> payload = new HashMap<>();
-                if (this.content != null) {
-                    payload.put("content", this.content);
-                }
-                if (!this.embed.isEmpty()) {
-                    payload.put("embeds", Collections.singletonList(this.embed));
-                }
-
-                // Serialize the payload to JSON
-                byte[] jsonData = objectMapper.writeValueAsBytes(payload);
-
-                // Write the JSON payload to the output stream
-                try (OutputStream os = connection.getOutputStream()) {
-                    os.write(jsonData, 0, jsonData.length);
-                }
-
-                // Get the response code (should be 204 if successful)
-                int responseCode = connection.getResponseCode();
-                if (responseCode != 204) {
-                    throw new Exception("Could not post Webhook.");
-                }
-            } catch (final Exception e) {
-                e.printStackTrace();
-            }
+            executeWebhook(plugin);
         });
+    }
+
+    public void executeSync(final NevexisCore plugin) {
+        if (!plugin.isACTIVITY_ENABLED()) {
+            return;
+        }
+        executeWebhook(plugin);
+    }
+
+    private void executeWebhook(final NevexisCore plugin) {
+        try {
+            // Create a connection
+            URL url = new URL(plugin.getACTIVITY_WEBHOOK_URL());
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json; utf-8");
+            connection.setDoOutput(true);
+
+            // Prepare the payload using ObjectMapper
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> payload = new HashMap<>();
+            if (this.content != null) {
+                payload.put("content", this.content);
+            }
+            if (!this.embed.isEmpty()) {
+                payload.put("embeds", Collections.singletonList(this.embed));
+            }
+
+            // Serialize the payload to JSON
+            byte[] jsonData = objectMapper.writeValueAsBytes(payload);
+
+            // Write the JSON payload to the output stream
+            try (OutputStream os = connection.getOutputStream()) {
+                os.write(jsonData, 0, jsonData.length);
+            }
+
+            // Get the response code (should be 204 if successful)
+            int responseCode = connection.getResponseCode();
+            if (responseCode != 204) {
+                throw new Exception("Could not post Webhook.");
+            }
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public DiscordWebhookBuilder builder() {
+        return new DiscordWebhookBuilder(this);
     }
 
     public static class DiscordWebhookBuilder {
